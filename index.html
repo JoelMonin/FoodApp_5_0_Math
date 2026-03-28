@@ -959,11 +959,11 @@
       opacity: 1;
       background: white;
     }
-    
-    .ing-card.out-of-stock > *:not(.ing-top-badges) {
+
+    .ing-card.out-of-stock>*:not(.ing-top-badges) {
       opacity: 0.4;
     }
-    
+
     .ing-card.out-of-stock .ing-top-badge {
       opacity: 0.3;
     }
@@ -3733,7 +3733,8 @@
                     <!-- Unified Imposed Ingredients Zone -->
                     <div class="imposed-zone">
                       <h4 class="ai-sec-title" style="margin-bottom:8px">🎯 Ingrédients imposés</h4>
-                      <p class="ai-sec-desc" style="margin-bottom:12px">Épinglez via 🥫 <b>Inventaire</b> ou ajoutez manuellement :</p>
+                      <p class="ai-sec-desc" style="margin-bottom:12px">Épinglez via 🥫 <b>Inventaire</b> ou ajoutez
+                        manuellement :</p>
 
                       <div class="pz-chips" id="imposed-chips">
                         <!-- Both inventory and extra chips go here -->
@@ -4077,7 +4078,7 @@
 
     function loadState() {
       try {
-        const s = localStorage.getItem('pantry_v5');
+        const s = localStorage.getItem('pantry_v5_' + FB_USER);
         if (s) {
           const p = JSON.parse(s);
           state = { ...state, ...p };
@@ -4090,7 +4091,7 @@
       state.search = "";
       state.filter = "all";
 
-      const sc = localStorage.getItem('pantry_v5_checked');
+      const sc = localStorage.getItem('pantry_v5_checked_' + FB_USER);
       if (sc) shoppingChecked = new Set(JSON.parse(sc));
     }
 
@@ -4158,15 +4159,15 @@
     }
 
     function saveState(push = true) {
-      localStorage.setItem('pantry_v5', JSON.stringify(state));
-      localStorage.setItem('pantry_v5_checked', JSON.stringify([...shoppingChecked]));
-      if (push) pushToFirebase();
+      localStorage.setItem('pantry_v5_' + FB_USER, JSON.stringify(state));
+      localStorage.setItem('pantry_v5_checked_' + FB_USER, JSON.stringify([...shoppingChecked]));
+      if (push) setTimeout(() => pushToFirebase(), 500);
     }
 
     // ═══════════════════════════════════════════
     // FIREBASE REST SYNC
     // ═══════════════════════════════════════════
-    const FB_USER = 'FoodApp_V5_Joel';
+    const FB_USER = 'FoodApp_V5_Mathieu';
     const FB_URL = 'https://food-app-ef43d-default-rtdb.europe-west1.firebasedatabase.app';
 
     function setSyncStatus(status, message = null) {
